@@ -1,0 +1,21 @@
+import Navbar from "../../components/Layout/Navbar";
+import Sidebar from "../../components/Layout/SideBar";
+import logo from "../../assets/logo.png";
+import Management from "../../constatnts/MenuTxt";
+import { Outlet } from "react-router-dom";
+
+const Layout = () => {
+  return (
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar logo={logo} items={Management} className="h-screen" />
+      <div className="flex flex-col flex-grow overflow-y-auto">
+        <Navbar />
+        <main className="flex-grow p-6 overflow-y-auto">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default Layout;
