@@ -3,6 +3,7 @@ import Layout from "./layouts/Management/Layout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import EmployeeProfile from "./pages/EmployeeProfile/List";
 import AddNewEmployee from "./pages/EmployeeProfile/AddNew";
+import EmployeePreview from "./pages/EmployeeProfile/EmployeePreview";
 
 const router = createBrowserRouter([
   {
@@ -25,8 +26,12 @@ const router = createBrowserRouter([
             element: <EmployeeProfile />,
           },
           {
-            path: "add",
+            path: "create",
             element: <AddNewEmployee/>,
+          },
+          {
+            path: "preview",
+            element: <EmployeePreview/>,
           },
         ],
       },
