@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+////////////EMPLOYEE TABLES/////////////////
+
+model Employee {
+  id                String         @id @default(auto()) @map("_id") @db.ObjectId
+  employeeId        String         @unique
+  name              String
+  designation       String?
+  gender            String?
+  joiningDate       DateTime?
+  lastWorkingDate   DateTime?
+  reportingManager  String?
+  salary            Float?
+  workStartTime     String?
+  workEndTime       String?
+  weekOff           String?
+  dob               DateTime?
+  role              String?
+  status            String?
+  reasonForInactive String?
+  personalDetails   String?
+  createdAt         DateTime       @default(now())
+}
+
+model EmployeeLogin {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  username   String   @unique
+  password   String
+  role       String? 
+}
+
+model EmployeePersonalDetails {
+  id                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  employeeId           String  @unique
+  employeeImage        String?
+  maritalStatus        String?
+  spouseOrGuardian     String?
+  qualification        String?
+  phoneNumber          String?
+  alternatePhoneNumber String?
+  officialEmail        String?
+  personalEmail        String?
+  bloodGroup           String?
+  emergencyContact     String?
+  permanentAddress     String?
+  currentAddress       String?
+  aadharNumber         String?
+  panNumber            String?
+  uanNumber            String?
+}
