@@ -4,14 +4,11 @@ const prisma = require("../lib/prisma");
 
 exports.createEmployee = async (req, res, next) => {
   try {
-    const { email, name } = req.body;
+    const details = req.body;
 
     // Try to create a new employee
     const newUser = await prisma.Employee.create({
-      data: {
-        email,
-        name,
-      },
+      data: details
     });
 
     res.status(200).json({ message: "New Employee created", newUser });
