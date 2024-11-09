@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const errorHandler = require("./utils/Error/errorHandler");
 // Routes
 const Employee = require("./routes/employee.route");
+const connectDB = require("./config/db");
 app.use(express.static(path.join(__dirname, "public")));
 
 // MIDDILEWARES
@@ -22,6 +23,7 @@ app.use("/api/employee", Employee);
 // error handler
 app.use(errorHandler);
 
-app.listen(PORT, () => {
+app.listen(PORT, (error) => {
+  connectDB();
   console.log(`Server is running on http://localhost:${PORT} 🚀`);
 });
