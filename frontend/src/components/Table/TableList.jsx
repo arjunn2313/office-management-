@@ -14,7 +14,7 @@ const TableList = ({ headers, data, getRowKey, renderRow, statusColors }) => (
         </tr>
       </thead>
       <tbody className="block md:table-row-group">
-        {data.map((item, index) => (
+        {data?.map((item, index) => (
           <tr key={getRowKey(item)} className="border-t block md:table-row">
             {renderRow(item, index, statusColors)}
           </tr>

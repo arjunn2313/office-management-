@@ -60,6 +60,9 @@ const EmployeeDetailsSchema = new mongoose.Schema(
     },
     status: {
       type: String,
+      enum: ["partially filled", "active", "inactive"],
+      required: true,
+      default: "partially filled",
     },
     reasonForInactive: {
       type: String,

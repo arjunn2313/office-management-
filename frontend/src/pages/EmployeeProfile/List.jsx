@@ -1,182 +1,132 @@
 import React, { useState } from "react";
 import { FaEye } from "react-icons/fa";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FilterSelect from "../../components/Filter/Select";
 import SearchInput from "../../components/Filter/Search";
 import ActionButton from "../../components/Button/ActionButton";
-import TableList from "../../components/Table/TableList";
 import { EmployeeHeaders as headers } from "../../constatnts/TableHeadings";
 import Heading from "../../components/Headings/Headings";
+import { useEmployeeList } from "../../hooks/useEmployee";
+import Pagination from "../../components/Pagination/Pagination";
 
-const employees = [
-  {
-    id: 1,
-    code: "2023JS001",
-    name: "Prawen",
-    designation: "UI/UX Designer",
-    status: "Partially Filled",
-  },
-  {
-    id: 2,
-    code: "2023JS002",
-    name: "Gokul",
-    designation: "Python Developer",
-    status: "Active",
-  },
-  {
-    id: 3,
-    code: "2023JS003",
-    name: "Ajith",
-    designation: "React JS",
-    status: "Active",
-  },
-  {
-    id: 4,
-    code: "2023JS004",
-    name: "Ajin",
-    designation: "PHP",
-    status: "Active",
-  },
-  {
-    id: 5,
-    code: "2023JS005",
-    name: "Sherin",
-    designation: "Digital Marketing",
-    status: "Active",
-  },
-  {
-    id: 6,
-    code: "2023JS006",
-    name: "Abish",
-    designation: "Tele Caller",
-    status: "Active",
-  },
-  {
-    id: 7,
-    code: "2023JS007",
-    name: "Akash",
-    designation: "Full Stack Developer",
-    status: "Active",
-  },
-  {
-    id: 8,
-    code: "2023JS008",
-    name: "Naveen",
-    designation: "Frontend Developer",
-    status: "Inactive",
-  },
-  {
-    id: 3,
-    code: "2023JS003",
-    name: "Ajith",
-    designation: "React JS",
-    status: "Active",
-  },
-  {
-    id: 4,
-    code: "2023JS004",
-    name: "Ajin",
-    designation: "PHP",
-    status: "Active",
-  },
-  {
-    id: 5,
-    code: "2023JS005",
-    name: "Sherin",
-    designation: "Digital Marketing",
-    status: "Active",
-  },
-  {
-    id: 6,
-    code: "2023JS006",
-    name: "Abish",
-    designation: "Tele Caller",
-    status: "Active",
-  },
-  {
-    id: 7,
-    code: "2023JS007",
-    name: "Akash",
-    designation: "Full Stack Developer",
-    status: "Active",
-  },
-  {
-    id: 8,
-    code: "2023JS008",
-    name: "Naveen",
-    designation: "Frontend Developer",
-    status: "Inactive",
-  },
-];
+import LoadingPlaceholder from "../../components/loaders/TableSkelton";
 
 export default function List() {
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { data, isLoading, error } = useEmployeeList(
+    currentPage,
+    selectedStatus,
+    searchQuery
+  );
+
+  const totalPages = data?.totalPages || 1;
 
   const handleStatusChange = (status) => {
     setSelectedStatus(status);
   };
 
-  const getRowKey = (employee) => employee.id;
-
-  const statusColors = {
-    Active: "text-green-600",
-    Inactive: "text-red-600",
-    Pending: "text-yellow-500",
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
-  const renderRow = (employee, index, statusColors) => (
-    <>
-      <td className="p-2 py-4 block md:table-cell">{index + 1}</td>
-      <td className="p-2 block md:table-cell">{employee.code}</td>
-      <td className="p-2 block md:table-cell">{employee.name}</td>
-      <td className="p-2 block md:table-cell">{employee.designation}</td>
-      <td
-        className={`p-2 block md:table-cell ${
-          statusColors[employee.status] || ""
-        }`}
-      >
-        {employee.status}
-      </td>
-      <td className="p-2 block md:table-cell">
-        <button className="text-primary hover:text-blue-700">
-          <FaEye />
-        </button>
-      </td>
-    </>
-  );
+  const statusColors = {
+    active: "text-green-600",
+    inactive: "text-red-600",
+    "partially filled": "text-yellow-500",
+  };
 
   return (
-    <div className="container bg-white mx-auto p-4">
-      <div className="grid grid-cols-2 mb-4">
-        <div className="flex items-center  gap-16">
-          <Heading text="Employee List" />
-          <FilterSelect
-            type="Status"
-            options={["All", "Active", "Inactive", "Partially Filled"]}
-            selectedValue={selectedStatus}
-            onChange={handleStatusChange}
-          />
+    <React.Fragment>
+      <div className="container bg-white mx-auto p-4 ">
+        {/* HEADER SECTION */}
+        <div className="grid grid-cols-2 mb-4">
+          <div className="flex items-center  gap-16">
+            <Heading text="Employee List" />
+            <FilterSelect
+              type="Status"
+              options={["All", "active", "inactive", "partially filled"]}
+              selectedValue={selectedStatus}
+              onChange={handleStatusChange}
+            />
+          </div>
+
+          <div className="flex items-center justify-end space-x-5">
+            <SearchInput
+              placeholder="Search employees..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+
+            <ActionButton buttonText="New Employee" to="create" />
+          </div>
         </div>
 
-        <div className="flex items-center justify-end space-x-5">
-          <SearchInput
-            placeholder="Search employees..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+        {/* TABLE */}
+        {isLoading ? (
+          <LoadingPlaceholder />
+        ) : (
+          <div className="overflow-x-auto min-h-80">
+            <table className="min-w-full border-collapse block md:table">
+              <thead className="block md:table-header-group">
+                <tr className="block md:table-row">
+                  {headers.map((header, index) => (
+                    <th
+                      key={index}
+                      className="p-2 text-left block md:table-cell"
+                    >
+                      {header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
 
-          <ActionButton buttonText="New Employee" to="create" />
-        </div>
+              <tbody className="block md:table-row-group capitalize">
+                {data?.data?.map((data, index) => (
+                  <tr key={index} className="border-t block md:table-row">
+                    <td className="p-2 py-4 block md:table-cell">
+                      {index + 1}
+                    </td>
+                    <td className="p-2 block md:table-cell">
+                      {data.employeeCode}
+                    </td>
+                    <td className="p-2 block md:table-cell truncate">
+                      {data.name}
+                    </td>
+                    <td className="p-2 block md:table-cell">
+                      {data.designation}
+                    </td>
+                    <td
+                      className={`p-2 block md:table-cell ${
+                        statusColors[data.status] || ""
+                      }`}
+                    >
+                      {data.status}
+                    </td>
+                    <td className="p-2 block md:table-cell">
+                      <Link
+                        to={`preview/${data._id}`}
+                        className="text-primary hover:text-blue-700"
+                      >
+                        <FaEye />
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
-      <TableList
-        headers={headers}
-        data={employees}
-        getRowKey={getRowKey}
-        renderRow={renderRow}
-        statusColors={statusColors}
+
+      {/* PAGINATION */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
       />
-      ;
-    </div>
+    </React.Fragment>
   );
 }

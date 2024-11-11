@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function EmployeeCard() {
+export default function EmployeeCard({ data }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3 p-3">
       <div className="flex flex-col sm:flex-row gap-8 sm:gap-28">
@@ -10,9 +10,9 @@ export default function EmployeeCard() {
           <p>Designation</p>
         </div>
         <div className="space-y-2 sm:space-y-4">
-          <p>Praveen</p>
-          <p>2023SI001</p>
-          <p>UI UX Designer</p>
+          <p>{data?.name}</p>
+          <p>{data?.employeeCode}</p>
+          <p>{data?.designation}</p>
         </div>
       </div>
       <div className="flex justify-center sm:justify-end">

@@ -4,14 +4,19 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import EmployeeProfile from "./pages/EmployeeProfile/List";
 import AddNewEmployee from "./pages/EmployeeProfile/AddNew";
 import EmployeePreview from "./pages/EmployeeProfile/EmployeePreview";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout><Outlet/></Layout>,
+    element: (
+      <Layout>
+        <Outlet />
+      </Layout>
+    ),
     children: [
       {
-        index: true,  
+        index: true,
         element: <Dashboard />,
       },
       {
@@ -27,11 +32,11 @@ const router = createBrowserRouter([
           },
           {
             path: "create",
-            element: <AddNewEmployee/>,
+            element: <AddNewEmployee />,
           },
           {
-            path: "preview",
-            element: <EmployeePreview/>,
+            path: "preview/:id",
+            element: <EmployeePreview />,
           },
         ],
       },
@@ -48,7 +53,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Toaster />
+      <RouterProvider router={router} />{" "}
+    </>
+  );
 }
 
 export default App;

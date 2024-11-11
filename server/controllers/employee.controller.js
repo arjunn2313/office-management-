@@ -18,6 +18,9 @@ exports.createEmployee = async (req, res, next) => {
   try {
     const { username, password, ...details } = req.body;
 
+    console.log(req.body);
+    
+
     if (await employeeService.checkUsernameExists(username)) {
       return next(
         createError(HttpStatus.BAD_REQUEST, "Username already exists")
@@ -41,6 +44,8 @@ exports.createEmployee = async (req, res, next) => {
       message: "Employee created successfully",
     });
   } catch (error) {
+    console.log(error);
+    
     next(error);
   }
 };

@@ -3,9 +3,22 @@ import Heading from "../../components/Headings/Headings";
 import { useState } from "react";
 import EmployeeCard from "../../components/Employee/EmployeeCard";
 import Personalnformation from "../../components/Employee/Personalnformation";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEmployeeDetails } from "../../hooks/useEmployee";
+import Spinner from "../../components/loaders/Spinner";
 
 export default function EmployeeDetails() {
   const [activeTab, setActiveTab] = useState("Personal Information");
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const { data, isLoading, error } = useEmployeeDetails(id);
+
+  const statusColors = {
+    active: "text-green-600",
+    inactive: "text-red-600",
+    "partially filled": "text-yellow-500",
+  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -32,19 +45,28 @@ export default function EmployeeDetails() {
     }
   };
 
+  if (isLoading) return <Spinner size="10" borderSize="3" />;
+
   return (
     <div className="container mx-auto p-4">
-      <MdOutlineKeyboardBackspace size={25} />
+      <MdOutlineKeyboardBackspace
+        size={25}
+        onClick={() => navigate(-1)}
+        className="cursor-pointer"
+      />
       <div className="bg-white p-4 mt-3  ">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
           <Heading text="Employee Details" />
-          <p className="text-green-500 mt-2 sm:mt-0">Active</p>
+          <p
+            className={`mt-2 sm:mt-0 capitalize ${statusColors[data?.status]}`}
+          >
+            {data?.status}
+          </p>
         </div>
 
         {/* CARD */}
-        <EmployeeCard />
+        <EmployeeCard data={data} />
       </div>
-
       {/* TAB  */}
       <div className=" mt-3 bg-white   ">
         <div className="flex border-b">
