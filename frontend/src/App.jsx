@@ -5,6 +5,8 @@ import EmployeeProfile from "./pages/EmployeeProfile/List";
 import AddNewEmployee from "./pages/EmployeeProfile/AddNew";
 import EmployeePreview from "./pages/EmployeeProfile/EmployeePreview";
 import { Toaster } from "react-hot-toast";
+import LeaveList from "./pages/Attendence/LeaveSettings/LeaveList";
+import LeaveForm from "./pages/Attendence/LeaveSettings/LeaveForm";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +44,16 @@ const router = createBrowserRouter([
       },
       {
         path: "attendance",
-        element: <Dashboard />,
+        children: [
+          {
+            path: "leave-settings",
+            element: <LeaveList />,
+          },
+          {
+            path: "leave-settings/create",
+            element: <LeaveForm />,
+          },
+        ],
       },
       {
         path: "assign-task",

@@ -301,9 +301,7 @@ export default function PersonalForm() {
         <button className="bg-transparent text-red-500 px-10 py-2 rounded-md">
           Discard
         </button>
-        <button className="bg-primary text-white px-10 py-2 rounded-md">
-          Save
-        </button>
+        {/* <SaveButton loading={isLoading} text="Save" loadingText="Saving..." /> */}
       </div>
     </form>
   );
