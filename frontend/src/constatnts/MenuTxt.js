@@ -19,7 +19,7 @@ const Management = [
       { label: "Employee summary", path: "/attendance/monthly" },
       { label: "Leave Requests", path: "/attendance/leave" },
       { label: "Permission Requests", path: "/attendance/leave" },
-      { label: "Holiday List", path: "/attendance/leave" },
+      { label: "Holiday List", path: "/attendance/holiday-list" },
       { label: "Leave Settings", path: "/attendance/leave-settings" },
     ],
   },

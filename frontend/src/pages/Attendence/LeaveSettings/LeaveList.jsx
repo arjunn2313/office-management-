@@ -38,18 +38,21 @@ export default function LeaveList() {
         </div>
 
         <div className="overflow-x-auto min-h-80">
-          <table className="min-w-full border-collapse block md:table">
-            <thead className="block md:table-header-group">
-              <tr className="block md:table-row">
-                {LeaveSettings.map((header, index) => (
-                  <th key={index} className="p-2 text-left block md:table-cell">
-                    {header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
+            <table className="min-w-full border-collapse block md:table">
+              <thead className="block md:table-header-group">
+                <tr className="block md:table-row">
+                  {LeaveSettings.map((header, index) => (
+                    <th
+                      key={index}
+                      className="p-2 text-left block md:table-cell"
+                    >
+                      {header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
 
-            {/* <tbody className="block md:table-row-group capitalize">
+              {/* <tbody className="block md:table-row-group capitalize">
                 {data?.data?.map((data, index) => (
                   <tr key={index} className="border-t block md:table-row">
                     <td className="p-2 py-4 block md:table-cell">
@@ -82,8 +85,8 @@ export default function LeaveList() {
                   </tr>
                 ))}
               </tbody> */}
-          </table>
-        </div>
+            </table>
+          </div>
       </div>
     </React.Fragment>
   );

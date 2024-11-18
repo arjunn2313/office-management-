@@ -7,6 +7,8 @@ import EmployeePreview from "./pages/EmployeeProfile/EmployeePreview";
 import { Toaster } from "react-hot-toast";
 import LeaveList from "./pages/Attendence/LeaveSettings/LeaveList";
 import LeaveForm from "./pages/Attendence/LeaveSettings/LeaveForm";
+import HolidayList from "./pages/Attendence/HolidayList/HolidayList";
+import HolidayForm from "./pages/Attendence/HolidayList/HolidayForm";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +54,14 @@ const router = createBrowserRouter([
           {
             path: "leave-settings/create",
             element: <LeaveForm />,
+          },
+          {
+            path: "holiday-list",
+            element: <HolidayList />,
+          },
+          {
+            path: "holiday-list/create",
+            element: <HolidayForm />,
           },
         ],
       },

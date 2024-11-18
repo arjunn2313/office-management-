@@ -1,6 +1,6 @@
 const RadioField = ({ label, name, register, options }) => {
     return (
-      <div className="flex items-center gap-16">
+      <div className="flex items-center  gap-16">
         <label className="block text-sm font-medium">{label}</label>
         <div className="mt-1 flex gap-5">
           {options.map((option) => (
